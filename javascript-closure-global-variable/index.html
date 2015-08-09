@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script>
+      // create function and immediately execute it.
+      // a function that isn't used as a method becomes a global variable
+      (function MyOuterFunction() {
+        var a = 123;
+        // inner function returns a even after MyOuterFunction is through
+        this.func = function() {
+          return a;
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <h1>Closure created by assigning function to a global variable</h1>
+    <p>
+      This closure is created using an immediate function.
+      Example courtesy <a href="http://www.i-programmer.info/programming/javascript/1038-javascript-jems-asynchronous-patterns.html">I Programmer</a>.
+    </p>
+    <script>
+      document.write(func());
+    </script>
+  </body>
+
+</html>

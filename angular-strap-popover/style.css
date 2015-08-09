@@ -1,0 +1,39 @@
+/***
+  Image popovers
+***/
+
+.popover {
+  max-width: 520px;
+  padding: 10px 5px 10px 5px;
+  cursor: pointer;
+  background-color: rgba(255,255,255,0.9);
+  z-index: 100;
+}
+
+.popover-title {
+  display: none;
+}
+
+.popover-content img {
+  max-width: 480px;
+  border: 1px solid #ddd;
+  z-index: inherit;
+}
+
+.img-popup-source {
+  margin-top: 7px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.img-popup-source:hover {
+  border: 1px solid #91a1be;
+}
+
+figcaption {
+  display: block;
+  font-size: 0.9em;
+  font-style: italic;
+  line-height: 1.15em;
+  margin: 5px 0 15px 5px;
+}

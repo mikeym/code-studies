@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <h1>Closure created by returning a function</h1>
+    <p>
+      Creating a closure by returning a function as
+      the result of another function.
+    </p>
+    <script>
+      // Closure created by returning a function as the result
+      // of another function.
+      // Example from http://www.i-programmer.info/programming/javascript/1038-javascript-jems-asynchronous-patterns.html
+      function MyOuterFunction() {
+        var a = 123;
+        function MyInnerFunction() {
+          return a;
+        }
+        return MyInnerFunction;
+      }
+
+      // the outer function is invoked, setting the variable
+      var func = MyOuterFunction();
+      
+      // MyOuterFunction has been invoked and ended, but has returned a reference to
+      // MyInnerFunction. You see the value of a when you invoke.
+      document.write(func());
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,26 @@
+/* styles aren't all needed for testing but I've left them here for reference */
+
+/* Bootstrap column containing time indicators and progress indicator */
+#playerSliderContainer {
+  height: 15px;
+  margin: 0;
+  padding: 23px 0 0 4px;
+  position: relative;
+}
+
+/* Styles for the track-progress-bar directive element */
+.progress-bar-bkgd {
+  width: 96%;
+  height: 2px;
+  border: none;
+  margin: 10px 2px 0 2px;
+  background-color: rgba(255,255,255,0.45);
+}
+
+.progress-bar-marker {
+  width: 0px;
+  background-color: rgba(255,255,255,0.85);
+  height: 100%;
+  color: #fff;
+  font-weight: normal
+}

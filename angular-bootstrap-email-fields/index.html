@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html ng-app="inputControlsApp" ng-controller="AppCtrl">
+
+  <head>
+    <link data-require="bootstrap-css@3.3.1" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <script src="https://code.angularjs.org/1.4.3/angular.js" data-semver="1.4.3" data-require="angular.js@1.4.3"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="simple-controller.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="row">
+        <h1 class="col-sm-12">Email fields in Angular and Bootstrap</h1>
+        <p class="col-sm-12">Email field valiation and styling using AngularJS and Bootstrap.</p>
+      </header>
+      
+      <!-- blue panel with bound values after data entry -->
+      <section class="row panel-body bg-primary">
+        <div class="col-sm-12">
+          <h4>Field values from model-binding</h4>
+          <div class="row">
+            <span class="col-xs-6">Default validation:</span>
+            <span class="col-xs-6">{{model.defaultvalidation}}</span>
+          </div>
+          <div class="row">
+            <span class="col-xs-6">Required:</span>
+            <span class="col-xs-6">{{model.requiredmax120}}</span>
+          </div>
+          <div class="row">
+            <span class="col-xs-6">Updates immediately:</span>
+            <span class="col-xs-6">{{model.requiredimmediate}}</span>
+          </div>
+          <div class="row">
+            <span class="col-xs-6">Custom validation:</span>
+            <span class="col-xs-6">{{model.customvalidation}}</span>
+          </div>
+        </div>
+      </section>
+    
+      <!-- Form with input field examples, submit handled by controller function -->
+      <form role="form" name="form.test" id="form.test" novalidate class="col-sm-12">
+        
+        <p class="row col-sm-12">Enter email addresses to see them appear above.</p>
+        
+        <!-- different status indications bound to the model, only one shows -->
+        <div class="panel">
+          <div class="panel-body bg-info" ng-show='model.formstatus === "unsubmitted"'>Form not yet submitted</div>
+          <div class="panel-body bg-success" ng-show='model.formstatus === "valid"'>Valid form data submitted</div>
+          <div class="panel-body bg-warning" ng-show='model.formstatus === "invalid"'>Invalid form data submitted</div>
+        </div>
+        
+        
+        <!-- Email input, default validation, no icons or messages -->
+        <div class="form-group">
+            <label for="defaultvalidation" class="control-label">Email field, default validation, no icons or messages</label>
+            <input type="email" id="defaultvalidation" name="defaultvalidation" 
+                   class="form-control" placeholder="my@email.com" 
+                   ng-model="model.defaultvalidation">
+        </div>
+
+
+        <!-- email input, max 120 chars, validates/updates on blur away from field -->
+        <div class="form-group has-feedback"
+             ng-class="{ 'has-error' : form.test.requiredmax120.$invalid && !form.test.requiredmax120.$pristine,
+                         'has-success' : form.test.requiredmax120.$valid && !form.test.requiredmax120.$pristine }">
+          <label for="requiredmax120" 
+                 class="control-label">Email field, required, max 120 chars, updates on blur</label>
+
+          <input type="email" id="requiredmax120" name="requiredmax120" class="form-control"
+                 ng-maxlength="120" placeholder="your@email.com"
+                 required aria-required="true" aria-describedby="requiredmax120InputStatus"
+                 ng-model="model.requiredmax120" ng-model-options="{ updateOn: 'blur' }">
+
+          <!-- validation icon at right side of field -->
+          <span class="glyphicon form-control-feedback" aria-hidden="true"
+                ng-class="{ 'glyphicon-remove' : form.test.requiredmax120.$invalid && !form.test.requiredmax120.$pristine,
+                            'glyphicon-ok' : form.test.requiredmax120.$valid && !form.test.requiredmax120.$pristine }"></span>
+          <span id="requiredmax120InputStatus" class="sr-only">(success)</span>
+
+          <!-- validation messages if needed -->
+          <p ng-show="form.test.requiredmax120.$invalid && !form.test.requiredmax120.$error.maxlength && !form.test.requiredmax120.$pristine"
+             class="help-block">Please enter a valid email address so we can spam you properly.</p>
+          <p ng-show="form.test.requiredmax120.$invalid && form.test.requiredmax120.$error.maxlength && !form.test.requiredmax120.$pristine"
+             class="help-block">Is your email address really that long?</p>
+        </div>
+        
+        
+        <!-- email input with input group, validates & updates immediately -->
+        <div class="form-group has-feedback"
+             ng-class="{ 'has-error' : form.test.requiredimmediate.$invalid && !form.test.requiredimmediate.$pristine,
+                         'has-success' : form.test.requiredimmediate.$valid && !form.test.requiredimmediate.$pristine }">
+          <label for="requiredimmediate" 
+                 class="control-label">Email field, required, input group, updates immediately</label>
+          
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            <input type="email" id="requiredimmediate" name="requiredimmediate" class="form-control"
+                 placeholder="everybody@email.com"
+                 required aria-required="true" aria-describedby="requiredimmediateInputStatus"
+                 ng-model="model.requiredimmediate">
+          </div>
+
+          <!-- validation icon at right side of field -->
+          <span class="glyphicon form-control-feedback" aria-hidden="true"
+                ng-class="{ 'glyphicon-remove' : form.test.requiredimmediate.$invalid && !form.test.requiredimmediate.$pristine,
+                            'glyphicon-ok' : form.test.requiredimmediate.$valid && !form.test.requiredimmediate.$pristine,
+                            'glyphicon-asterisk' : form.test.customvalidation.$pristine}"></span>
+          <span id="requiredimmediateInputStatus" class="sr-only">(success)</span>
+
+          <!-- validation message if needed -->
+          <p ng-show="form.test.requiredimmediate.$invalid && !form.test.requiredimmediate.$error.maxlength && !form.test.requiredimmediate.$pristine"
+             class="help-block">We need your email address to send you cat photos.</p>
+        </div>
+        
+        
+        <!-- email input with custom validations and messages -->
+        <div class="form-group has-feedback"
+             ng-class="{ 'has-error' : form.test.customvalidation.$invalid && !form.test.customvalidation.$pristine,
+                         'has-success' : form.test.customvalidation.$valid && !form.test.customvalidation.$pristine }">
+          <label for="customvalidation" 
+                 class="control-label">Custom validation</label>
+          
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            <!-- custom email validation directive -->
+            <input type="email" id="customvalidation" name="customvalidation" class="form-control"
+                 custom-email-validator
+                 placeholder="anybody@toadfart.com"
+                 ng-maxlength="30" ng-minlength="14"
+                 required aria-required="true" aria-describedby="customvalidationInputStatus"
+                 ng-model="model.customvalidation" ng-model-options="{ updateOn: 'blur' }">
+          </div>
+
+          <!-- validation icon at right side of field -->
+          <span class="glyphicon form-control-feedback" aria-hidden="true"
+                ng-class="{ 'glyphicon-remove' : form.test.customvalidation.$invalid && !form.test.customvalidation.$pristine,
+                            'glyphicon-ok' : form.test.customvalidation.$valid && !form.test.customvalidation.$pristine,
+                            'glyphicon-asterisk' : form.test.customvalidation.$pristine}"></span>
+          <span id="customvalidationInputStatus" class="sr-only">(success)</span>
+
+          <!-- validation message if needed, test for !$pristine first to simplify logic -->
+          <div ng-show="form.test.customvalidation.$invalid && !form.test.customvalidation.$pristine">
+            <p ng-show="!form.test.customvalidation.$error.maxlength && !form.test.customvalidation.$error.minlength"
+               class="help-block">Please enter an email address ending with 'toadfart.com'</p>
+            <p ng-show="form.test.customvalidation.$error.maxlength"
+               class="help-block">Your email address is way too long.</p>
+            <p ng-show="form.test.customvalidation.$error.minlength"
+               class="help-block">Your email address is too short.</p>
+          </div>
+          
+          <!-- hint message below the field before you start typing -->
+          <p ng-show="form.test.customvalidation.$pristine" class="help-block">
+            Required, minimum length 14, maximum length 30, must end in 'toadfart.com'.  
+          </p>
+          
+          <!-- success message once you've worked it out -->
+          <p ng-show="!form.test.customvalidation.$pristine && form.test.customvalidation.$valid" class="help-block">
+            By George, I think he's got it!  
+          </p>
+          
+        </div>
+        
+        
+        <!-- Buttons -->
+        <div class="form-group">
+          <button type="submit" ng-click='submitForm()' class="btn btn-primary">Submit</button>
+          <button type="cancel" ng-click='clearForm()' class="btn btn-default">Clear</button>
+        </div>
+        
+      </form>        
+    </div>
+  </body>
+
+</html>

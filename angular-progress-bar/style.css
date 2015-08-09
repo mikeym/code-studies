@@ -1,0 +1,26 @@
+/* dark background for example */
+.dark {
+  background-color: #333;
+  height: 40px;
+  padding: 30px 20px 0 20px;
+  text-align: center;
+}
+
+/* Styles for the track-progress-bar directive element */
+.progress-bar-bkgd {
+  width: 96%;
+  height: 2px;
+  border: none;
+  margin: 0 2px 0 2px;
+  background-color: rgba(255,255,255,0.45);
+}
+
+.progress-bar-marker {
+  width: 0px;
+  background-color: rgba(255,255,255,0.85);
+  height: 100%;
+  color: #fff;
+  font-weight: normal
+}
+
+
