@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+
+  <head>
+    <link data-require="bootstrap-css@3.3.1" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <script src="https://code.angularjs.org/1.4.3/angular.js" data-semver="1.4.3" data-require="angular.js@1.4.3"></script>
+    <script data-require="angular-resource@1.4.3" data-semver="1.4.3" src="https://code.angularjs.org/1.4.3/angular-resource.js"></script>
+    <script src="app.js"></script>
+  </head>
+
+  <body class="container">
+    <header>
+      <h1>USDA JSONP data via an Angular $resource</h1>
+      <p>
+        This plunker demonstrates accessing publically-available data from the USDA's
+        <a href="http://quickstats.nass.usda.gov/api" target="_blank">National Agricultural Statistics Service</a>
+        using an Angular $resource encapsulated in a service. The table below extracts a few columns of the data
+        returned by a query for environmental-related listings for blueberries in Washington state.
+      </p>
+    </header>
+    <div ng-controller="UsdaDataCtrl as ctrl">
+      <section class="row">
+        <div class="col-xs-12">
+          <h4>
+            USDA NASS Environmental Survey Results: Blueberries, WA State
+          </h4>
+
+          <!-- sample data row returned:
+            {"week_ending":"","state_name":"WASHINGTON","country_code":"9000",
+            "location_desc":"WASHINGTON","begin_code":"00","zip_5":"",
+            "county_ansi":"","state_alpha":"WA","util_practice_desc":"BEARING",
+            "domain_desc":"CHEMICAL, FUNGICIDE","asd_desc":"","freq_desc":"ANNUAL",
+            "prodn_practice_desc":"ALL PRODUCTION PRACTICES","end_code":"00",
+            "sector_desc":"ENVIRONMENTAL","short_desc":"BLUEBERRIES, BEARING - APPLICATIONS, MEASURED IN LB",
+            "country_name":"UNITED STATES","Value":"200","reference_period_desc":"YEAR",
+            "CV (%)":"","class_desc":"ALL CLASSES","asd_code":"",
+            "agg_level_desc":"STATE","county_name":"","region_desc":"",
+            "watershed_desc":"","state_ansi":"53","congr_district_code":"",
+            "domaincat_desc":"CHEMICAL, FUNGICIDE: (AZOXYSTROBIN = 128810)",
+            "state_fips_code":"53","group_desc":"FRUIT & TREE NUTS","watershed_code":"00000000",
+            "unit_desc":"LB","source_desc":"SURVEY","load_time":"2011-08-10 08:55:14",
+            "county_code":"","statisticcat_desc":"APPLICATIONS","commodity_desc":"BLUEBERRIES","year":"2011"}          
+          -->
+          
+          <table class="table table-striped table-condensed">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Commodity</th>
+                <th>State</th>
+                <th>Domain Category</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in ctrl.usdaData.data | orderBy: 'year'">
+                <td>{{row.year}}</td>
+                <td>{{row.commodity_desc}}</td>
+                <td>{{row.state_alpha}}</td>
+                <td>{{row.domaincat_desc}}</td>
+                <td>{{row.Value}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </section>
+    </div>
+  </body>
+
+</html>

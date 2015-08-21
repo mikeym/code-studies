@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html ng-app="inputControlsApp" ng-controller="AppCtrl">
+
+<head>
+  <link data-require="bootstrap-css@3.3.1" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+  <script src="https://code.angularjs.org/1.4.3/angular.js" data-semver="1.4.3" data-require="angular.js@1.4.3"></script>
+  <script src="app.js"></script>
+</head>
+
+<body>
+<div class="container">
+  <header class="row">
+    <h1 class="col-sm-12">Email fields in Angular and Bootstrap</h1>
+    <p class="col-sm-12">Email field valiation and styling using AngularJS and Bootstrap.</p>
+  </header>
+
+  <!-- blue panel with bound values after data entry -->
+  <section class="row panel-body bg-primary">
+    <div class="col-sm-12">
+      <h4>Field values from model-binding</h4>
+      <div class="row">
+        <p class="col-xs-12">Enter email addresses to see them appear here through model-binding.</p>
+      </div>
+      <div class="row">
+        <span class="col-xs-6">Custom validation:</span>
+        <span class="col-xs-6">{{model.customvalidation}}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form with input field examples, submit handled by controller function -->
+  <form role="form" name="form.test" id="form.test" novalidate class="col-sm-12">
+
+    <!-- different status indications bound to the model, only one shows -->
+    <div class="panel">
+      <div class="panel-body bg-info" ng-show='model.formstatus === "unsubmitted"'>Form not yet submitted</div>
+      <div class="panel-body bg-success" ng-show='model.formstatus === "valid"'>Valid form data submitted</div>
+      <div class="panel-body bg-warning" ng-show='model.formstatus === "invalid"'>Invalid form data submitted</div>
+    </div>
+
+
+    <!-- email input with custom validations and messages -->
+    <div class="form-group has-feedback"
+         ng-class="{ 'has-error' : form.test.customvalidation.$invalid && !form.test.customvalidation.$pristine,
+                         'has-success' : form.test.customvalidation.$valid && !form.test.customvalidation.$pristine }">
+      <label for="customvalidation"
+             class="control-label">Custom validation</label>
+
+      <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+        <!-- custom email validation directive -->
+        <input type="email" id="customvalidation" name="customvalidation" class="form-control"
+               custom-email-validator
+               placeholder="anybody@toadfart.com"
+               ng-maxlength="30" ng-minlength="14"
+               show-validation-icon
+               required aria-required="true" aria-describedby="customvalidationInputStatus"
+               ng-model="model.customvalidation" ng-model-options="{ updateOn: 'blur' }">
+
+        <!-- validation icon at right side of field -->
+        <!--
+        <span class="glyphicon form-control-feedback" aria-hidden="true"
+              ng-class="{ 'glyphicon-remove' : form.test.customvalidation.$invalid && !form.test.customvalidation.$pristine,
+                          'glyphicon-ok' : form.test.customvalidation.$valid && !form.test.customvalidation.$pristine,
+                          'glyphicon-asterisk' : form.test.customvalidation.$pristine}"></span>
+        <span id="customvalidationInputStatus" class="sr-only">(success)</span>
+        -->
+
+      </div>
+
+      <!-- validation message if needed, test for !$pristine first to simplify logic -->
+      <div ng-show="form.test.customvalidation.$invalid && !form.test.customvalidation.$pristine">
+        <p ng-show="!form.test.customvalidation.$error.maxlength && !form.test.customvalidation.$error.minlength"
+           class="help-block">Please enter an email address ending with 'toadfart.com'</p>
+        <p ng-show="form.test.customvalidation.$error.maxlength"
+           class="help-block">Your email address is way too long.</p>
+        <p ng-show="form.test.customvalidation.$error.minlength"
+           class="help-block">Your email address is too short.</p>
+      </div>
+
+      <!-- hint message below the field before you start typing -->
+      <p ng-show="form.test.customvalidation.$pristine" class="help-block">
+        Required, minimum length 14, maximum length 30, must end in 'toadfart.com'.
+      </p>
+
+      <!-- success message once you've worked it out -->
+      <p ng-show="!form.test.customvalidation.$pristine && form.test.customvalidation.$valid" class="help-block">
+        By George, I think he's got it!
+      </p>
+
+    </div>
+
+    <!-- TODO: somehow needs the input-group parent to work, but style is off -->
+    <div class="input-group">
+      <input type="text" name="poop" id="poop" class="form-control" show-validation-icon
+            ng-model="model.poop" ng-model-options="{ updateOn: 'blur' }">
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-group">
+      <button type="submit" ng-click='submitForm()' class="btn btn-primary">Submit</button>
+      <button type="cancel" ng-click='clearForm()' class="btn btn-default">Clear</button>
+    </div>
+
+  </form>
+</div>
+</body>
+
+</html>
