@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+
+  <head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" data-semver="3.3.1" data-require="bootstrap-css@3.3.1" />
+    <script data-require="angular.js@1.4.3" data-semver="1.4.3" src="https://code.angularjs.org/1.4.3/angular.js"></script>
+    <script src="validation-form-group.js"></script>
+    <script src="validation-icon.js"></script>
+    <script src="app.js"></script>
+  </head>
+
+  <body class="container">
+    <header>
+      <h1>m2-validation components</h1>
+      <p>
+        Demonstrating two open-source components:
+      </p>
+      <ul>
+        <li>
+          <a href="https://github.com/mikeym/m2-validation/tree/master/validation-form-group" target="_blank">validation-form-group</a>
+          Allows an input components model validation state to be reflected in all components within a Bootstrap form-group.
+        </li>        
+        <li>
+          <a href="https://github.com/mikeym/m2-validation/tree/master/validation-icon" target="_blank">validation-icon</a>
+          Adds a validation icon to the right edge of a Bootstrap text-based input field.
+        </li>        
+      </ul>
+      <p>
+        Please see the github project pages for more information and demonstrations.
+      </p>
+      <p>
+        Note: although I developed each of these components, I hadn't tried using both at the same time before (duh). I discovered
+        that the validation-icons may appear out of place if I don't wrap the inputs within a Bootstrap input-group, as I've done here.
+      </p>
+    </header>
+    <div ng-controller="MyCtrl as ctrl">
+      <section class="row">
+        <form role="form" name="ctrl.form.test" id="form.test" novalidate class="col-sm-12">
+      
+          <!-- different status indications bound to the model, only one shows -->
+          <div class="panel">
+            <div class="panel-body bg-info" ng-show='ctrl.model.formstatus === "unsubmitted"'>Form state: not yet submitted</div>
+            <div class="panel-body bg-success" ng-show='ctrl.model.formstatus === "valid"'>Form state: valid data submitted</div>
+            <div class="panel-body bg-warning" ng-show='ctrl.model.formstatus === "invalid"'>Form state: invalid data submitted</div>
+          </div>
+      
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Examples:</h3>
+            </div>
+            <div class="panel-body">
+      
+              <!-- uses the directive -->
+              <div class="form-group">
+                <label for="textwithvalidation" class="control-label">Required text field</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                  <input type="text" id="textwithvalidation" name="textwithvalidation" class="form-control"
+                         show-form-group-validation show-validation-icon
+                         placeholder="type something" required aria-required="true"
+                         ng-model="ctrl.model.textwithvalidation" ng-model-options="{ updateOn: 'blur' }">
+                </div>
+              </div>
+      
+              <div class="form-group">
+                <label for="emailwithvalidation" class="control-label">Required email field</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                  <input type="email" id="emailwithvalidation" name="emailwithvalidation" class="form-control"
+                         show-form-group-validation show-validation-icon
+                         placeholder="type an email address" required aria-required="true"
+                         ng-model="ctrl.model.emailwithvalidation" ng-model-options="{ updateOn: 'blur' }">
+                </div>
+              </div>
+      
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="form-group">
+            <button type="submit" ng-click='ctrl.submitForm()' class="btn btn-primary">Submit</button>
+            <button type="cancel" ng-click='ctrl.clearForm()' class="btn btn-default">Clear</button>
+          </div>
+      
+        </form>
+      </section>
+    </div>
+  </body>
+
+</html>
