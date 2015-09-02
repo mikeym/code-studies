@@ -88,6 +88,9 @@
   padding: 10px 15px;
   cursor: move;
 }
+.nestedDemo .dropzone .not-draggable .item  {
+  cursor: default;
+}
 .nestedDemo .dropzone .item .glyphicon-asterisk {
   font-size: 0.8em;
   color: #555;
@@ -96,6 +99,9 @@
 .nestedDemo .dropzone .container-element {
   margin: 10px;
   cursor: move;
+}
+.nestedDemo .dropzone .not-draggable .container-element {
+  cursor: default;
 }
 .nestedDemo .dropzone .container-element .glyphicon-folder-open {
   margin-right: 5px;
@@ -124,6 +130,10 @@
   opacity: 1.0;
   cursor: move;
 }
+.nestedDemo .toolbox .not-draggable .btn.btn-default.btn-block {
+  color: #999;
+  cursor: default;
+}
 
 .nestedDemo .toolbox .dndDragging {
   opacity: 0.5;
@@ -145,13 +155,16 @@
   color: #777;
 }
 
-/* ??? */
 .nestedDemo .trashcan .dndDragover .glyphicon {
   width: 100%;
   -webkit-filter: none;
   -moz-filter: none;
   filter: none;
   color: #222;
+}
+
+.nestedDemo .trashcan .not-draggable .glyphicon {
+  color: #bbb;
 }
 
 .nestedDemo .trashcan .dndPlaceholder {

@@ -17,14 +17,16 @@
        makes an element draggable and will transfer the object that was
        assigned to it. If an element was dragged away, you have to remove
        it from the original list yourself using the dnd-moved attribute -->
+  <!-- M2: added disable test linked to checkbox & model -->
   <script type="text/ng-template" id="list.html">
     <ul dnd-list="list">
       <li ng-repeat="item in list"
           dnd-draggable="item"
           dnd-effect-allowed="move"
+          dnd-disable-if="dndctrl.models.enabled === false"
           dnd-moved="list.splice($index, 1)"
-          dnd-selected="models.selected = item"
-          ng-class="{selected: models.selected === item}"
+          dnd-selected="dndctrl.models.selected = item"
+          ng-class="{'selected': dndctrl.models.selected === item, 'not-draggable': dndctrl.models.enabled === false}"
           ng-include="item.type + '.html'">
       </li>
     </ul>
@@ -53,19 +55,28 @@
   <p>
     Drag and Drop experiment using the
     <a href="https://github.com/marceljuenemann/angular-drag-and-drop-lists" target="_blank">Angular Drag and Drop Lists</a> module.
-    It has a pretty swell <a href="http://marceljuenemann.github.io/angular-drag-and-drop-lists/demo/#/nested" target="_blank">Demo page</a>.
-    This example is pretty close to Marcel's original, so I could get a better understanding of his library. I didn't add the
+    It has a swell <a href="http://marceljuenemann.github.io/angular-drag-and-drop-lists/demo/#/nested" target="_blank">Demo page</a>.
+    This example is pretty close to Marcel's original, so that I could get a better understanding of his library. I didn't add the
     <a href="https://github.com/timruffles/ios-html5-drag-drop-shim" target="_blank">HTML5 Shim</a> for drag and drop on
     touch devices, so this won't work on your iPad.
   </p>
+  <p>
+    My changes include reworking the example to use the "controller as" syntax and follow the
+    <a href="https://github.com/johnpapa/angular-styleguide" target="_blank">Angular style guide</a>,
+    revising the <a href="http://getbootstrap.com/css/#grid" target="_blank">Bootstrap</a> layout to better support
+    slimmer viewports, adding "move" cursors when drag and drop is enabled, tweaking the draggable new elements in the
+    toolbox, and adding icons just for grins. I also added the on/off checkbox and tied this into the various
+    components' behavior and styles. &mdash; M2
+  </p>
 </header>
-<div ng-controller="NestedListsDemoController" class="nestedDemo">
+
+<div ng-controller="NestedListsDemoController as dndctrl" class="nestedDemo">
   <section class="row">
 
    <!-- Main area with dropzones and source code -->
     <div class="col-sm-10">
       <div class="row">
-        <div ng-repeat="(zone, list) in models.dropzones" class="col-sm-6">
+        <div ng-repeat="(zone, list) in dndctrl.models.dropzones" class="col-sm-6">
           <div class="dropzone box box-yellow">
             <!-- The dropzone also uses the list template -->
             <h3><span class="glyphicon glyphicon-circle-arrow-down"></span> Dropzone {{zone}}</h3>
@@ -81,14 +92,25 @@
     <!-- Sidebar -->
     <div class="col-sm-2">
 
+      <div class="box box-grey box-padding">
+        <h3>On/Off</h3>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="dndctrl.models.enabled"> Drag Enabled
+          </label>
+        </div>
+      </div>
+
       <div class="toolbox box box-grey box-padding">
         <h3>New Elements</h3>
         <ul>
           <!-- The toolbox only allows to copy objects, not move it. After a new
                element was created, dnd-copied is invoked and we generate the next id -->
-          <li ng-repeat="item in models.templates"
+          <li ng-repeat="item in dndctrl.models.templates"
               dnd-draggable="item"
               dnd-effect-allowed="copy"
+              dnd-disable-if="dndctrl.models.enabled === false"
+              ng-class="{'not-draggable': dndctrl.models.enabled === false}"
               dnd-copied="item.id = item.id + 1">
             <div class="btn btn-default btn-block disabled"><span class="glyphicon glyphicon-plus"></span>
               {{item.type}}</div>
@@ -96,17 +118,19 @@
         </ul>
       </div>
 
-      <div ng-if="models.selected" class="box box-grey box-padding">
+      <div ng-if="dndctrl.models.selected" class="box box-grey box-padding">
         <h3>Selected</h3>
-        <strong>Type: </strong> {{models.selected.type}}<br>
-        <input type="text" ng-model="models.selected.id" class="form-control" style="margin-top: 5px" />
+        <strong>Type: </strong> {{dndctrl.models.selected.type}}<br>
+        <input type="text" ng-model="dndctrl.models.selected.id" class="form-control" style="margin-top: 5px" />
       </div>
 
       <div class="trashcan box box-grey box-padding">
         <!-- If you use [] as referenced list, the dropped elements will be lost -->
         <h3>Trashcan</h3>
         <ul dnd-list="[]">
-          <li><span class="glyphicon glyphicon-trash"></span></li>
+          <li ng-class="{'not-draggable': dndctrl.models.enabled === false}">
+            <span class="glyphicon glyphicon-trash"></span>
+          </li>
         </ul>
       </div>
 
@@ -116,7 +140,7 @@
   <section class="row">
     <div class="col-sm-12">
       <h2>Generated Model</h2>
-      <pre>{{modelAsJson}}</pre>
+      <pre>{{dndctrl.modelAsJson}}</pre>
     </div>
   </section>
 

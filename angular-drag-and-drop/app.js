@@ -2,9 +2,11 @@
   'use strict';
 
   function NestedListsDemoController($scope) {
+    var vm = this;
 
-    $scope.models = {
+    vm.models = {
       selected: null,
+      enabled: true,
       templates: [
         {type: 'item', id: 2},
         {type: 'container', id: 1, columns: [[], []]}
@@ -115,8 +117,8 @@
       }
     };
 
-    $scope.$watch('models.dropzones', function(model) {
-      $scope.modelAsJson = angular.toJson(model, true);
+    $scope.$watch('dndctrl.models.dropzones', function(model) {
+      vm.modelAsJson = angular.toJson(model, true);
     }, true);
 
   }
